@@ -8,7 +8,7 @@ const app = new App({
 
 app.command('/checkstock', async ({ command, ack, payload, context }) => {
   await ack();
-  const price = await yahooStockPrices.getCurrentPrice(`${command.text}`);
+  const price = await yahooStockPrices.getCurrentPrice(`${command.text}`.toUpperCase());
   
   try {
     const result = await app.client.chat.postMessage({
@@ -21,7 +21,7 @@ app.command('/checkstock', async ({ command, ack, payload, context }) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `${command.text}` + " " + price.toString()
+            text: `<@${command.user_id}>` + " " + `${command.text}` + " " + price.toString().toUpperCase()
           },
         }
       ],
